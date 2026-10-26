@@ -1,0 +1,290 @@
+/* ==========================================================================
+   Sinay.ua — тёмная тема «Графит»
+   Включается атрибутом <html data-theme="dark"> (его ставит theme-toggle.js).
+   Без этого атрибута ни одно правило ниже не действует — светлая тема не меняется.
+   Файл сгенерирован tools/build_theme.py; правки вручную вносите в
+   theme-dark.manual.css, а палитру — в PALETTE внутри скрипта.
+   ========================================================================== */
+
+/* ---------- 1. Палитра ---------- */
+html[data-theme="dark"] {
+  --bg: #121417;  /* page background */
+  --surface: #1b1e23;  /* cards, header, inputs (was #fff) */
+  --surface2: #24282f;  /* raised blocks, hover (was #2d264b) */
+  --border: #363b44;  /* borders (was #c7c7c7) */
+  --text: #ececec;  /* main text (was #000) */
+  --muted: #9ba1aa;  /* secondary text (was #999) */
+  --brand: #1d71b8;  /* brand blue for buttons/backgrounds - unchanged */
+  --link: #4f9be0;  /* brand blue for text on dark - lighter for contrast */
+  --green: #34c472;  /* "in stock" green (was #27ae60) */
+  --yellow: #fff155;  /* catalog button yellow - unchanged */
+  --deep: #0b0c0e;  /* footer and darkest areas */
+  --shadow: rgba(0,0,0,.5);  /* card shadows */
+}
+
+/* ---------- 2. Ручные правки (кнопка темы, фон, футер, картинки) ---------- */
+/* Кнопка смены темы в шапке. Размеры и рамка как у кнопки профиля (.user_button). */
+.theme_toggle {
+  width: 44px;
+  height: 49px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  padding: 0;
+  background: #fff;
+  border: 1px solid #c7c7c7;
+  border-radius: 6px;
+  color: #2d264b;
+  cursor: pointer;
+  transition: border-color .4s, background .4s, color .4s;
+}
+.theme_toggle:hover { border-color: #1d71b8; }
+.theme_toggle:focus-visible { outline: 2px solid #1d71b8; outline-offset: 2px; }
+/* На телефоне шапка ниже — уменьшаем кнопку под размер соседних. */
+@media (max-width: 767px) {
+  .theme_toggle { width: 38px; height: 38px; }
+  .theme_toggle svg { width: 20px; height: 20px; }
+}
+/* В светлой теме видна луна («включить тёмную»), в тёмной — солнце. */
+.theme_toggle .theme_toggle__sun { display: none; }
+html[data-theme="dark"] .theme_toggle .theme_toggle__sun { display: block; }
+html[data-theme="dark"] .theme_toggle .theme_toggle__moon { display: none; }
+html[data-theme="dark"] .theme_toggle {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--yellow);
+}
+html[data-theme="dark"] .theme_toggle:hover { border-color: var(--brand); }
+
+/* Фон страницы и базовый текст. color-scheme тёмный — тёмные полосы прокрутки и поля форм. */
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+  background: var(--bg) !important;
+  color: var(--text);
+  color-scheme: dark;
+}
+
+/* Поля ввода (поиск, формы). */
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+  background: var(--surface2);
+  color: var(--text);
+  border-color: var(--border);
+}
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder { color: var(--muted); }
+
+/* На жёлтых кнопках («Каталог», «Наверх») текст остаётся тёмным. */
+html[data-theme="dark"] .catalog_btn,
+html[data-theme="dark"] .catalog_btn *,
+html[data-theme="dark"] .go_to_top { color: #121417 !important; }
+html[data-theme="dark"] .catalog_btn svg * { stroke: #121417; }
+
+/* Футер: вместо сплошного синего — тёмный с синей полосой сверху. */
+html[data-theme="dark"] footer {
+  background: var(--deep) !important;
+  border-top: 4px solid var(--brand);
+}
+html[data-theme="dark"] footer a:hover { color: var(--link); }
+
+/* Иконки, нарисованные прямо в разметке (inline SVG). */
+html[data-theme="dark"] svg [fill="#2D264B"],
+html[data-theme="dark"] svg [fill="black"],
+html[data-theme="dark"] svg [fill="#000"],
+html[data-theme="dark"] svg [fill="#000000"] { fill: var(--text); }
+html[data-theme="dark"] svg [stroke="black"],
+html[data-theme="dark"] svg [stroke="#000"],
+html[data-theme="dark"] svg [stroke="#000000"] { stroke: var(--text); }
+html[data-theme="dark"] svg [stroke="#2D264B"] { stroke: var(--text); }
+html[data-theme="dark"] svg [stroke="#1D71B8"] { stroke: var(--link); }
+html[data-theme="dark"] svg [fill="#27AE60"] { fill: var(--green); }
+
+/* Стрелки раскрытия в меню каталога — картинки с тёмной обводкой; делаем их белыми. */
+html[data-theme="dark"] .mega_menu > ul > li.menu-item-has-children > a:after,
+html[data-theme="dark"] .mega_menu:after {
+  filter: brightness(0) invert(1);
+  opacity: .85;
+}
+/* Раскрытый пункт меню: стрелка синяя, как и текст пункта. */
+html[data-theme="dark"] .mega_menu > ul > li.menu-item-has-children.active > a:after {
+  filter: none;
+  opacity: 1;
+}
+
+/* Свёрнутый SEO-текст внизу страницы. Сайт рисует буквы градиентом
+   «чёрный сверху → белый снизу», чтобы текст растворялся в белом фоне.
+   В тёмной теме разворачиваем: светлый текст сверху растворяется в тёмном фоне. */
+html[data-theme="dark"] .seo .seo_text.small .text_content {
+  background: linear-gradient(180deg, var(--text) 0, var(--text) 35%, var(--bg) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+html[data-theme="dark"] .seo .seo_text.small .text_content h2 { -webkit-text-fill-color: var(--text); }
+
+/* Фото товаров сняты на белом — чуть приглушаем, чтобы не слепили. SVG-иконки не трогаем. */
+html[data-theme="dark"] img:not([src$=".svg"]):not([data-pagespeed-lazy-src$=".svg"]) {
+  filter: brightness(.92) contrast(1.02);
+}
+/* Иконка каталога в мобильной шапке — тёмная картинка, делаем её светлой. */
+html[data-theme="dark"] .header_ctalog_btn img { filter: invert(.9); }
+/* Синий логотип на тёмном фоне осветляем, иначе надпись плохо видна. */
+html[data-theme="dark"] img[src*="logo"] { filter: brightness(1.55) saturate(.9); }
+
+/* ---------- 3. Автоматически перекрашенные правила из CSS сайта ---------- */
+html[data-theme="dark"] body{color:var(--text);background-color:var(--bg)}
+html[data-theme="dark"] body a{color:var(--text)}
+html[data-theme="dark"] body a:focus,html[data-theme="dark"] body a:hover{color:var(--link)}
+html[data-theme="dark"] .loader{background-color:var(--surface)}
+html[data-theme="dark"] .btn_style{background-color:var(--brand);box-shadow:0 8px 16px 0 var(--shadow),0 0 4px 0 var(--shadow)}
+html[data-theme="dark"] .btn_style:active,html[data-theme="dark"] .btn_style:focus,html[data-theme="dark"] .btn_style:hover{color:var(--text)}
+html[data-theme="dark"] .btn_style.no-active:hover,html[data-theme="dark"] .btn_style.no-active:focus{background-color:var(--brand)}
+html[data-theme="dark"] .btn_style.transparent{color:var(--link);border:1px solid var(--brand);box-shadow:0 8px 16px 0 var(--shadow)}
+html[data-theme="dark"] .btn_style.transparent:active,html[data-theme="dark"] .btn_style.transparent:focus,html[data-theme="dark"] .btn_style.transparent:hover{background-color:var(--brand)}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb{background:var(--brand)}
+html[data-theme="dark"] header{background-color:var(--surface)}
+html[data-theme="dark"] header .header__wrap .header_btn{background:var(--brand)}
+html[data-theme="dark"] header .header__wrap .languages .current_lang{background:var(--surface);border:1px solid var(--border)}
+html[data-theme="dark"] header .header__wrap .languages .current_lang:hover{border-color:var(--brand)}
+html[data-theme="dark"] header .header__wrap .languages .language-chooser{border:1px solid var(--border);background:var(--surface)}
+html[data-theme="dark"] header .header__wrap .header_ctalog_btn{background:var(--surface);border:1px solid var(--border)}
+html[data-theme="dark"] header .header__wrap .header_ctalog_btn:hover{border-color:var(--brand)}
+html[data-theme="dark"] header .header__wrap .user_button{background:var(--surface);border:1px solid var(--border)}
+html[data-theme="dark"] header .header__wrap .user_button:hover{border-color:var(--brand)}
+html[data-theme="dark"] header .header__wrap .header_cart{background:var(--surface);border:1px solid var(--border)}
+html[data-theme="dark"] header .header__wrap .header_cart:hover{border-color:var(--brand)}
+html[data-theme="dark"] header .header__wrap .header_cart .icon_wrap .num{background-color:var(--brand)}
+html[data-theme="dark"] header .header__wrap .header_cart .text{color:var(--text)}
+html[data-theme="dark"] header .header__wrap .header_cart .mini_cart_price{color:var(--link)}
+html[data-theme="dark"] .down_header{background:var(--brand)}
+html[data-theme="dark"] .catalog_btn{color:var(--text);box-shadow:0 8px 16px 0 var(--shadow),0 0 4px 0 var(--shadow)}
+html[data-theme="dark"] .catalog_toggle_mnu .catalog_sandwich .sw-topper{background:var(--surface2)}
+html[data-theme="dark"] .catalog_toggle_mnu .catalog_sandwich .sw-bottom{background:var(--surface2)}
+html[data-theme="dark"] .catalog_toggle_mnu .catalog_sandwich .sw-footer{background:var(--surface2)}
+html[data-theme="dark"] .header_search .search_input_wrap .search_input input{color:var(--text);background-color:var(--surface);box-shadow:0 8px 16px 0 var(--shadow),0 0 4px 0 var(--shadow)}
+html[data-theme="dark"] .header_search .search_input_wrap .search_input input::-webkit-input-placeholder{color:var(--text)}
+html[data-theme="dark"] .header_search .search_input_wrap .search_input input:-moz-placeholder{color:var(--text)}
+html[data-theme="dark"] .header_search .search_input_wrap .search_input input::-moz-placeholder{color:var(--text)}
+html[data-theme="dark"] .header_search .search_input_wrap .search_input input:-ms-input-placeholder{color:var(--text)}
+html[data-theme="dark"] .mobile_menu{background-color:var(--surface)}
+html[data-theme="dark"] .mobile_menu .order_call{background:var(--brand);box-shadow:0 8px 16px 0 var(--shadow),0 0 4px 0 var(--shadow)}
+html[data-theme="dark"] .catalog_menu::-webkit-scrollbar-thumb{background:var(--brand)}
+html[data-theme="dark"] .mega_menu{background:var(--surface);box-shadow:0 8px 16px 0 var(--shadow),0 0 4px 0 var(--shadow)}
+html[data-theme="dark"] .mega_menu>ul::-webkit-scrollbar-thumb{background:var(--brand)}
+html[data-theme="dark"] .mega_menu>ul>li>a{color:var(--text)}
+html[data-theme="dark"] .mega_menu>ul>li .sub-menu{background:var(--bg)}
+html[data-theme="dark"] .mega_menu>ul>li.menu-item-has-children.active>a{color:var(--link)}
+html[data-theme="dark"] .mega_menu>ul>li:hover>a{color:var(--link)}
+html[data-theme="dark"] .toggle_mnu .sw-topper{background:var(--brand)}
+html[data-theme="dark"] .toggle_mnu .sw-bottom{background:var(--brand)}
+html[data-theme="dark"] .toggle_mnu .sw-footer{background:var(--brand)}
+html[data-theme="dark"] ::-webkit-input-placeholder{color:var(--text)}
+html[data-theme="dark"] :-moz-placeholder{color:var(--text)}
+html[data-theme="dark"] ::-moz-placeholder{color:var(--text)}
+html[data-theme="dark"] :-ms-input-placeholder{color:var(--text)}
+html[data-theme="dark"] .main_page_info:before{background-color:var(--surface);color:var(--link)}
+html[data-theme="dark"] .title_h1,html[data-theme="dark"] h1{color:var(--text)}
+html[data-theme="dark"] .title_h2,html[data-theme="dark"] h2{color:var(--text)}
+html[data-theme="dark"] .title_h3,html[data-theme="dark"] h3{color:var(--text)}
+html[data-theme="dark"] form .form-control-wrap input,html[data-theme="dark"] form .form-control-wrap select,html[data-theme="dark"] form .form-control-wrap textarea{border:1px solid var(--border);background-color:var(--surface)}
+html[data-theme="dark"] .poducts_items .item{background-color:var(--surface);border:1px solid var(--border)}
+html[data-theme="dark"] .poducts_items .item .add_wish_list.active svg path{fill:var(--link)}
+html[data-theme="dark"] .poducts_items .item .title.out_of_stock{color:var(--muted)}
+html[data-theme="dark"] .poducts_items .item .product_meta .add_to_cart{background:var(--brand);box-shadow:0 8px 16px 0 var(--shadow), 0 0 4px 0 var(--shadow)}
+html[data-theme="dark"] .poducts_items .item .product_meta .add_to_cart:hover svg path{fill:var(--text)}
+html[data-theme="dark"] .poducts_items .item .product_meta .price{color:var(--link)}
+html[data-theme="dark"] .poducts_items .item .product_meta .price.out_of_stock{color:var(--muted)}
+html[data-theme="dark"] .poducts_items .item .product_meta .in_stock{color:var(--green)}
+html[data-theme="dark"] .poducts_items .item .product_meta .in_stock.out_of_stock{color:var(--muted)}
+html[data-theme="dark"] .poducts_items .item:hover{border-color:var(--brand)}
+html[data-theme="dark"] .category-sort .current-sort{background:var(--surface);border:1px solid var(--border)}
+html[data-theme="dark"] .category-sort .current-sort:hover{border:1px solid var(--brand)}
+html[data-theme="dark"] .category-sort .sort-chooser{border:1px solid var(--border);background:var(--surface)}
+html[data-theme="dark"] .categories_section .show_more{color:var(--link)}
+html[data-theme="dark"] .categories_list .item{background:var(--surface);border:1px solid var(--border)}
+html[data-theme="dark"] .categories_list .item:hover{border-color:var(--brand);box-shadow:0 8px 16px 0 var(--shadow), 0 0 4px 0 var(--shadow)}
+html[data-theme="dark"] .pagination .pagination_link{border:1px solid var(--border);background:var(--surface);color:var(--text)}
+html[data-theme="dark"] .pagination .pagination_link.active,html[data-theme="dark"] .pagination .pagination_link:hover{border:1px solid var(--brand);color:var(--link)}
+html[data-theme="dark"] .text_content a{color:var(--link)}
+html[data-theme="dark"] .seo .read_more{color:var(--link)}
+html[data-theme="dark"] .go_to_top{box-shadow:0 8px 16px 0 var(--shadow), 0 0 4px 0 var(--shadow)}
+html[data-theme="dark"] .go_to_top:hover{background-color:var(--brand)}
+html[data-theme="dark"] .product_page_main .images_wrap{background:var(--surface)}
+html[data-theme="dark"] .product_page_main .images_wrap .add_wish_list.active svg path{fill:var(--link)}
+html[data-theme="dark"] .product_page_main .in_stock{color:var(--green)}
+html[data-theme="dark"] .product_page_main .in_stock.out_of_stock{color:var(--muted)}
+html[data-theme="dark"] .product_page_main .articul{color:var(--text)}
+html[data-theme="dark"] .product_page_assortment_buttons button{background-color:var(--surface);border:1px solid var(--border)}
+html[data-theme="dark"] .product_page_assortment_buttons button:hover,html[data-theme="dark"] .product_page_assortment_buttons button.selected{border:1px solid var(--brand);color:var(--link)}
+html[data-theme="dark"] .product_page_main .product_page_meta .product_page_price_wrap .price{color:var(--link)}
+html[data-theme="dark"] .product_page_main .product_page_meta .product_page_price_wrap .price.out_of_stock{color:var(--muted)}
+html[data-theme="dark"] .product_page_main .product_page_meta .counter{border:1px solid var(--border);background:var(--surface)}
+html[data-theme="dark"] .product_page_main .product_page_meta .counter .minus,html[data-theme="dark"] .product_page_main .product_page_meta .counter .plus{color:var(--link)}
+html[data-theme="dark"] .product_page_main .product_page_meta .quick_buy{border:1px solid var(--brand);box-shadow:0 8px 16px 0 var(--shadow);color:var(--link);background-color:var(--surface)}
+html[data-theme="dark"] .product_page_main .product_page_parameters{background:var(--surface)}
+html[data-theme="dark"] .product_page_main .product_page_parameters .select_parameters label{color:var(--text)}
+html[data-theme="dark"] .product_page_main .product_page_parameters .select_parameters select{border:1px solid var(--border);background:var(--surface);color:var(--text)}
+html[data-theme="dark"] .product_page_content .right_wrap{background:var(--surface)}
+html[data-theme="dark"] .product_page_content .tab_links:after{background:var(--surface)}
+html[data-theme="dark"] .product_page_content .tab_links .tab_link:hover{color:var(--link)}
+html[data-theme="dark"] .product_page_content .tab_links .tab_link.active{color:var(--link)}
+html[data-theme="dark"] .product_page_content .tab_links .tab_link.active:after{background:var(--brand)}
+html[data-theme="dark"] .product_page_content .tabs .tab .parameters .item .val{color:var(--link)}
+html[data-theme="dark"] .product_added{background:var(--brand);box-shadow:0 8px 16px 0 var(--shadow), 0 0 4px 0 var(--shadow)}
+html[data-theme="dark"] .cart_table_head div{color:var(--text)}
+html[data-theme="dark"] .cart_table{background-color:var(--surface)}
+html[data-theme="dark"] .cart_table .item{border-bottom:1px solid var(--border)}
+html[data-theme="dark"] .cart_table .item .prices .price{color:var(--link)}
+html[data-theme="dark"] .cart_table .item .counter{border:1px solid var(--border);background:var(--surface)}
+html[data-theme="dark"] .cart_table .item .counter .minus,html[data-theme="dark"] .cart_table .item .counter .plus{color:var(--link)}
+html[data-theme="dark"] .cart_table .item .total_item .price{color:var(--link)}
+html[data-theme="dark"] .total_table .end_total{color:var(--link)}
+html[data-theme="dark"] .checkout_content .checkout_form{background-color:var(--surface)}
+html[data-theme="dark"] .checkout_content .delivery_form{background-color:var(--surface)}
+html[data-theme="dark"] .checkout_content .delivery_form .delivery_title{color:var(--link)}
+html[data-theme="dark"] .checkout_content .pay_form{background-color:var(--surface)}
+html[data-theme="dark"] .checkout_content .pay_info{border:1px solid var(--brand);background-color:var(--surface)}
+html[data-theme="dark"] .checkout_content .pay_info b{color:var(--link)}
+html[data-theme="dark"] .checkout_content .confirming a{color:var(--link)}
+html[data-theme="dark"] .page_404_content .large_text{color:var(--link)}
+html[data-theme="dark"] .contacts_content .contacts_items .item{background:var(--surface);border:2px solid var(--surface)}
+html[data-theme="dark"] .contacts_content .contacts_items .item.active{border:2px solid var(--brand)}
+html[data-theme="dark"] .contacts_content .contacts_items .item .city{color:var(--link)}
+html[data-theme="dark"] .contacts_content .contacts_tabs .tab iframe{border:1px solid var(--border)}
+html[data-theme="dark"] .advantages .item{background:var(--surface)}
+html[data-theme="dark"] .advantages .item .text{color:var(--link)}
+html[data-theme="dark"] .steps .item{background-color:var(--surface)}
+html[data-theme="dark"] .steps .item .text a{color:var(--link)}
+html[data-theme="dark"] .steps .item .number{background:var(--brand);box-shadow:0 8px 16px 0 var(--shadow), 0 0 4px 0 var(--shadow)}
+html[data-theme="dark"] .delivery_items .item{background-color:var(--surface)}
+html[data-theme="dark"] .account_page .account_sidebar .account_links{background:var(--surface);border:1px solid var(--border)}
+html[data-theme="dark"] .account_page .account_sidebar .account_links .account_link{border-bottom:1px solid var(--border)}
+html[data-theme="dark"] .account_page .account_sidebar .account_links .account_link.active,html[data-theme="dark"] .account_page .account_sidebar .account_links .account_link:hover{color:var(--link)}
+html[data-theme="dark"] .account_page .account_sidebar .account_links .account_link.active svg path,html[data-theme="dark"] .account_page .account_sidebar .account_links .account_link:hover svg path{stroke:var(--link)}
+html[data-theme="dark"] .account_section{background:var(--surface)}
+html[data-theme="dark"] .login-links-under a:hover{color:var(--link)}
+html[data-theme="dark"] .orders_table .orders_list .order_item{background-color:var(--surface)}
+html[data-theme="dark"] .orders_table .orders_list .order_item .order_head div .visible-xs{color:var(--text)}
+html[data-theme="dark"] .orders_table .orders_list .order_item .order_head div:nth-child(6){color:var(--link)}
+html[data-theme="dark"] .orders_table .orders_list .order_item .order_content .order_products .product_item .price{color:var(--link)}
+html[data-theme="dark"] .orders_table .orders_list .order_item.active{border:1px solid var(--brand)}
+html[data-theme="dark"] .orders_table .orders_list .order_item.active .order_head{border-bottom:1px solid var(--brand)}
+html[data-theme="dark"] footer{background-color:var(--brand)}
+html[data-theme="dark"] footer .section_content .social_links a{background-color:var(--surface)}
+html[data-theme="dark"] .remodal{background-color:var(--surface)}
+html[data-theme="dark"] .remodal-close:before{background-color:var(--surface)}
+html[data-theme="dark"] .remodal-close:after{background-color:var(--surface)}
+html[data-theme="dark"] .form_title{color:var(--text)}
+html[data-theme="dark"] body .remodal-wrapper .remodal .modal_content .center_wrap .go_to_home{color:var(--text)}
+html[data-theme="dark"] body .remodal-wrapper .remodal .modal_content .remember{color:var(--link)}
+html[data-theme="dark"] body .remodal-wrapper .remodal .modal_content .not_account{color:var(--link)}
+html[data-theme="dark"] body .remodal-wrapper .remodal .modal_content .not_account:hover{color:var(--link)}
+html[data-theme="dark"] body .remodal-wrapper .remodal .modal_content .register_account{color:var(--link)}
+@media only screen and (max-width: 767px){
+  html[data-theme="dark"] .product_page_main .product_page_parameters{border:2px solid var(--brand)}
+  html[data-theme="dark"] .product_page_main .product_page_parameters .toggle_select_parameters{color:var(--link)}
+  html[data-theme="dark"] .contacts_content .contacts_select{border:2px solid var(--brand);background-color:var(--surface);color:var(--link)}
+}
+html[data-theme="dark"] .search-dropdown-results{background:var(--surface);box-shadow:0 8px 16px 0 var(--shadow), 0 0 4px 0 var(--shadow)}
+html[data-theme="dark"] .search-dropdown-item{border-bottom:1px solid var(--border)}

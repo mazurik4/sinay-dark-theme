@@ -1,0 +1,108 @@
+/* Кнопка смены темы в шапке. Размеры и рамка как у кнопки профиля (.user_button). */
+.theme_toggle {
+  width: 44px;
+  height: 49px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  padding: 0;
+  background: #fff;
+  border: 1px solid #c7c7c7;
+  border-radius: 6px;
+  color: #2d264b;
+  cursor: pointer;
+  transition: border-color .4s, background .4s, color .4s;
+}
+.theme_toggle:hover { border-color: #1d71b8; }
+.theme_toggle:focus-visible { outline: 2px solid #1d71b8; outline-offset: 2px; }
+/* На телефоне шапка ниже — уменьшаем кнопку под размер соседних. */
+@media (max-width: 767px) {
+  .theme_toggle { width: 38px; height: 38px; }
+  .theme_toggle svg { width: 20px; height: 20px; }
+}
+/* В светлой теме видна луна («включить тёмную»), в тёмной — солнце. */
+.theme_toggle .theme_toggle__sun { display: none; }
+html[data-theme="dark"] .theme_toggle .theme_toggle__sun { display: block; }
+html[data-theme="dark"] .theme_toggle .theme_toggle__moon { display: none; }
+html[data-theme="dark"] .theme_toggle {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--yellow);
+}
+html[data-theme="dark"] .theme_toggle:hover { border-color: var(--brand); }
+
+/* Фон страницы и базовый текст. color-scheme тёмный — тёмные полосы прокрутки и поля форм. */
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+  background: var(--bg) !important;
+  color: var(--text);
+  color-scheme: dark;
+}
+
+/* Поля ввода (поиск, формы). */
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+  background: var(--surface2);
+  color: var(--text);
+  border-color: var(--border);
+}
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder { color: var(--muted); }
+
+/* На жёлтых кнопках («Каталог», «Наверх») текст остаётся тёмным. */
+html[data-theme="dark"] .catalog_btn,
+html[data-theme="dark"] .catalog_btn *,
+html[data-theme="dark"] .go_to_top { color: #121417 !important; }
+html[data-theme="dark"] .catalog_btn svg * { stroke: #121417; }
+
+/* Футер: вместо сплошного синего — тёмный с синей полосой сверху. */
+html[data-theme="dark"] footer {
+  background: var(--deep) !important;
+  border-top: 4px solid var(--brand);
+}
+html[data-theme="dark"] footer a:hover { color: var(--link); }
+
+/* Иконки, нарисованные прямо в разметке (inline SVG). */
+html[data-theme="dark"] svg [fill="#2D264B"],
+html[data-theme="dark"] svg [fill="black"],
+html[data-theme="dark"] svg [fill="#000"],
+html[data-theme="dark"] svg [fill="#000000"] { fill: var(--text); }
+html[data-theme="dark"] svg [stroke="black"],
+html[data-theme="dark"] svg [stroke="#000"],
+html[data-theme="dark"] svg [stroke="#000000"] { stroke: var(--text); }
+html[data-theme="dark"] svg [stroke="#2D264B"] { stroke: var(--text); }
+html[data-theme="dark"] svg [stroke="#1D71B8"] { stroke: var(--link); }
+html[data-theme="dark"] svg [fill="#27AE60"] { fill: var(--green); }
+
+/* Стрелки раскрытия в меню каталога — картинки с тёмной обводкой; делаем их белыми. */
+html[data-theme="dark"] .mega_menu > ul > li.menu-item-has-children > a:after,
+html[data-theme="dark"] .mega_menu:after {
+  filter: brightness(0) invert(1);
+  opacity: .85;
+}
+/* Раскрытый пункт меню: стрелка синяя, как и текст пункта. */
+html[data-theme="dark"] .mega_menu > ul > li.menu-item-has-children.active > a:after {
+  filter: none;
+  opacity: 1;
+}
+
+/* Свёрнутый SEO-текст внизу страницы. Сайт рисует буквы градиентом
+   «чёрный сверху → белый снизу», чтобы текст растворялся в белом фоне.
+   В тёмной теме разворачиваем: светлый текст сверху растворяется в тёмном фоне. */
+html[data-theme="dark"] .seo .seo_text.small .text_content {
+  background: linear-gradient(180deg, var(--text) 0, var(--text) 35%, var(--bg) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+html[data-theme="dark"] .seo .seo_text.small .text_content h2 { -webkit-text-fill-color: var(--text); }
+
+/* Фото товаров сняты на белом — чуть приглушаем, чтобы не слепили. SVG-иконки не трогаем. */
+html[data-theme="dark"] img:not([src$=".svg"]):not([data-pagespeed-lazy-src$=".svg"]) {
+  filter: brightness(.92) contrast(1.02);
+}
+/* Иконка каталога в мобильной шапке — тёмная картинка, делаем её светлой. */
+html[data-theme="dark"] .header_ctalog_btn img { filter: invert(.9); }
+/* Синий логотип на тёмном фоне осветляем, иначе надпись плохо видна. */
+html[data-theme="dark"] img[src*="logo"] { filter: brightness(1.55) saturate(.9); }

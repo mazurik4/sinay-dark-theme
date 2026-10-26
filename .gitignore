@@ -1,0 +1,9 @@
+.DS_Store
+.claude/
+__pycache__/
+*.zip
+# early 3-palette preview from the first iteration
+site/dark.html
+site/dark-themes.css
+build.py
+site/index.html
