@@ -15,18 +15,18 @@
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'sinay-theme';
-  var DARK = 'dark';
-  var root = document.documentElement;
+  let STORAGE_KEY = 'sinay-theme';
+  let DARK = 'dark';
+  let root = document.documentElement;
 
   // Подписи кнопки (подсказка и текст для экранных чтецов) на языке страницы — по <html lang="...">.
   // Тема одна на весь сайт: при смене языка RU/UA выбранная тема сохраняется.
-  var TEXTS = {
+  let TEXTS = {
     ru: { toDark: 'Включить тёмную тему', toLight: 'Включить светлую тему', dark: 'Тёмная тема', light: 'Светлая тема' },
     uk: { toDark: 'Увімкнути темну тему', toLight: 'Увімкнути світлу тему', dark: 'Темна тема', light: 'Світла тема' }
   };
-  var lang = (root.getAttribute('lang') || 'ru').slice(0, 2).toLowerCase();
-  var t = TEXTS[lang] || TEXTS.ru;
+  let lang = (root.getAttribute('lang') || 'ru').slice(0, 2).toLowerCase();
+  let t = TEXTS[lang] || TEXTS.ru;
 
   function isDark() {
     return root.getAttribute('data-theme') === DARK;
@@ -34,14 +34,14 @@
 
   // Применяет тему к странице и обновляет подписи кнопок (для экранных чтецов и подсказки).
   function apply(theme) {
-    var dark = theme === DARK;
+    let dark = theme === DARK;
     if (dark) {
       root.setAttribute('data-theme', DARK);
     } else {
       root.removeAttribute('data-theme');
     }
-    var buttons = document.querySelectorAll('[data-theme-toggle]');
-    for (var i = 0; i < buttons.length; i++) {
+    let buttons = document.querySelectorAll('[data-theme-toggle]');
+    for (let i = 0; i < buttons.length; i++) {
       buttons[i].setAttribute('aria-pressed', dark ? 'true' : 'false');
       buttons[i].setAttribute('aria-label', dark ? t.toLight : t.toDark);
       buttons[i].setAttribute('title', dark ? t.light : t.dark);
@@ -60,14 +60,14 @@
   }
 
   function toggle() {
-    var next = isDark() ? 'light' : DARK;
+    let next = isDark() ? 'light' : DARK;
     apply(next);
     save(next);
   }
 
   // Делегирование клика: работает и для кнопок, добавленных позже (например, в мобильном меню).
   document.addEventListener('click', function (e) {
-    var btn = e.target.closest && e.target.closest('[data-theme-toggle]');
+    let btn = e.target.closest && e.target.closest('[data-theme-toggle]');
     if (!btn) return;
     e.preventDefault();
     toggle();
@@ -82,7 +82,7 @@
 
   // Вкладку вернули из кэша кнопкой «Назад» — сверяемся с сохранённым выбором.
   window.addEventListener('pageshow', function () {
-    var saved = null;
+    let saved = null;
     try { saved = localStorage.getItem(STORAGE_KEY); } catch (e) {}
     apply(saved === DARK ? DARK : 'light');
   });
