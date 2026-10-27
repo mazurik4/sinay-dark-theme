@@ -57,6 +57,13 @@ html[data-theme="dark"] .catalog_btn *,
 html[data-theme="dark"] .go_to_top { color: #121417 !important; }
 html[data-theme="dark"] .catalog_btn svg * { stroke: #121417; }
 
+/* Кнопки-«контуры» (например, «Назад в магазин» в корзине): фон прозрачный, как на светлой теме.
+   Без этого правила общий тёмный стиль .btn_style закрашивал бы их синим — синий текст на синем. */
+html[data-theme="dark"] .btn_style.transparent { background-color: transparent; }
+html[data-theme="dark"] .btn_style.transparent:active,
+html[data-theme="dark"] .btn_style.transparent:focus,
+html[data-theme="dark"] .btn_style.transparent:hover { background-color: var(--brand); color: #fff; }
+
 /* Футер: вместо сплошного синего — тёмный с синей полосой сверху. */
 html[data-theme="dark"] footer {
   background: var(--deep) !important;
